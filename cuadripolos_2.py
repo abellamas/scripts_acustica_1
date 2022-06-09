@@ -18,6 +18,8 @@ def side_branch(f,c,z,r_b,l):
   C = 1j*(s_b/z)*np.tan(k*l)
   return np.array([[1,0],[C,1]])
  
+def helmholtz():
+  
 
 
 
@@ -41,7 +43,6 @@ c=343 #sound propagation velocity
 z=410 #characteristic impedance of the medium
 r_tube=0.025 #radius tube in
 r_chamber=0.061 #radius expansion chamber
-r_sb = 0.010
 l_in=0.1 #lenght inlet tube
 l_chamber=c/(4*f_chamber) #lenght expansion chamber
 l_conection=0.1 #lenght tube conection between mufflers
@@ -67,10 +68,10 @@ transmission_values = [] #contains all the TL values for each matrix
 for f in f_range:
   T1_values.append(tube(f,c,z,r_tube,l_in))
   T2_values.append(change_section())
-  T3_values.append(tube(f,c,z,r_chamber,l_chamber)) #expansion chamber
+  T3_values.append(tube(f,c,z,r_chamber,l_chamber))
   T4_values.append(change_section())
-  T5_values.append(tube(f,c,z,r_tube,l_conection)) #conection tube
-  T6_values.append(side_branch(f,c,z,r_sb,l_sb)) #side branch
+  T5_values.append(tube(f,c,z,r_tube,l_conection))
+  T6_values.append(side_branch(f,c,z,r_tube,l_sb))
   T7_values.append(tube(f,c,z,r_tube,l_out)) 
 
 
@@ -81,7 +82,6 @@ for i in range(len(f_range)):
   
   # T_result = T3_values[i] #only expansion chamber
   # T_result = T6_values[i] #only side branch
-  # T_result = T1_values[i]@T6_values[i]@T5_values[i]@T2_values[i]@T3_values[i]@T4_values[i]@T7_values[i] # the same elements but sorted diferent 
   matrix_multiply.append(T_result)
 
 for j in range(len(f_range)):
